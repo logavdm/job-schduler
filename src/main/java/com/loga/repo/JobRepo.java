@@ -1,5 +1,7 @@
 package com.loga.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +20,7 @@ public interface JobRepo extends JpaRepository<Job,Long> {
 	@Modifying
 	@Query("update Job j set j.status = :status WHERE j.id = :jobid")
     void setJobStatus(@Param("jobid") Long id, @Param("status") Status status);
+	
+	List<Job> findByStatus(Status status);
 
 }

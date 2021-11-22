@@ -19,6 +19,7 @@ import com.loga.entity.Job;
 import com.loga.entity.Job.Status;
 import com.loga.repo.JobRepo;
 import com.loga.runnerpkg.JobRunnerInterface;
+import com.loga.service.JobService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,9 @@ public class JobRunner implements ApplicationListener<ApplicationReadyEvent> {
 
 	@Autowired
 	private JobRepo jobRepo;
+	
+	@Autowired
+	private JobService jobService;
 
 	@Autowired
 	private JobSchdulerProps props;
@@ -59,7 +63,7 @@ public class JobRunner implements ApplicationListener<ApplicationReadyEvent> {
 						continue;
 					}
 
-					Class<?> clz = getRunnerClz(job.getJobClass());
+					Class<?> clz = jobService.getRunnerClz(job.getJobClass());
 					if (clz == null) {
 						log.info("Defined job runner class not found  :: {}", job.getJobClass());
 						job.setStatus(Status.FAILED);
@@ -93,14 +97,6 @@ public class JobRunner implements ApplicationListener<ApplicationReadyEvent> {
 		}
 	}
 
-	private Class<?> getRunnerClz(String strClass) {
-		Class<?> clz = null;
-		try {
-			clz = Class.forName(strClass);
-		} catch (Exception e) {
-			log.error("Job Runner Class not Found :: {}", e.getMessage());
-		}
-		return clz;
-	}
+	
 
 }

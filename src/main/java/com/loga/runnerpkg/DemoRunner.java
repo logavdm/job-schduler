@@ -26,10 +26,13 @@ public class DemoRunner implements JobRunnerInterface{
 	@Override
 	public void run() {
 		log.info("Job is running ... , Job id :: {} , Job Name :: {}",job.getId(),job.getName());
-		JobRunDetails jobRun=new JobRunDetails();
-		jobRun.setJob(job);
-		jobRun.setDescription("Job successfully run at :: "+new Date().toString());
-		jobRunRepo.save(jobRun);
+		
+		if(job.isJobRunLogEnabled()) {
+			JobRunDetails jobRun=new JobRunDetails();
+			jobRun.setJob(job);
+			jobRun.setDescription("Job successfully run at :: "+new Date().toString());
+			jobRunRepo.save(jobRun);
+		}		
 	}
 
 }

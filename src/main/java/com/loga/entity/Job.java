@@ -29,6 +29,10 @@ public class Job {
 	    RUNNING, PAUSED, STOPPED,FAILED,REJECTED
 	}
 	
+	public enum Action {
+	    START, STOP
+	}
+			
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false, unique = true)
@@ -44,7 +48,8 @@ public class Job {
 	private LocalDateTime createdat;
 	@UpdateTimestamp
 	private LocalDateTime updatedat;
-
+	
+	private boolean jobRunLogEnabled;
 	@OneToMany(mappedBy = "job")
 	@JsonManagedReference
 	private List<JobRunDetails> jobRunDetails;
@@ -53,5 +58,10 @@ public class Job {
 	public String toString() {
 		return " Job ID :: " + id + " , Job Name :: " + name + " , Cron Expression :: " + expression + " , Enabled :: "
 				+ enabled + " ,Status :: " + status + " , CreatedAt :: " + createdat + " , UpdatedAt :: " + updatedat;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (int) id;
 	}
 }
