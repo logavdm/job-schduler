@@ -14,6 +14,7 @@ import com.loga.entity.Job;
 import com.loga.entity.Job.Action;
 import com.loga.entity.Job.Status;
 import com.loga.exception.JobException;
+import com.loga.models.Response;
 import com.loga.repo.JobRepo;
 import com.loga.service.JobService;
 
@@ -28,7 +29,7 @@ public class JobManagementController {
 	private JobService jobService;
 	
 	@PostMapping("")
-	public List<Job> getJobs(	){
+	public List<Job> getJobs(){
 		return jobRepo.findAll();
 	}
 	
@@ -42,10 +43,12 @@ public class JobManagementController {
 		return jobRepo.findByStatus(status);
 	}
 	
-	@GetMapping("/{id}/action/{action}")
+	@GetMapping("/action/{id}/{action}")
 	public ResponseEntity<Object> jobAction(@PathVariable("id")Long id,@PathVariable("action")Action action){
 		String status="success";
 		try {
+			
+			
 			jobService.jobAction(id, action);
 		}catch (JobException e) {
 			status=e.getMessage();
