@@ -1,4 +1,4 @@
-package com.loga.handler;
+package com.loga.exception;
 
 public class JobException extends RuntimeException{
 	

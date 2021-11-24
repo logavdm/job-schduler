@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.loga.entity.Job;
 import com.loga.entity.Job.Action;
 import com.loga.entity.Job.Status;
-import com.loga.handler.JobException;
+import com.loga.exception.JobException;
 import com.loga.repo.JobRepo;
 import com.loga.service.JobService;
 
@@ -32,14 +32,14 @@ public class JobManagementController {
 		return jobRepo.findAll();
 	}
 	
-	@GetMapping("/{status}")
-	public List<Job> getJobByStatus(@PathVariable("status")Status status){
-		return jobRepo.findByStatus(status);
-	}
-	
 	@GetMapping("/get/{id}")
 	public Job getJobByID(@PathVariable("id")long id){
 		return jobRepo.findById(id).get();
+	}
+	
+	@GetMapping("/status/{status}")
+	public List<Job> getJobByStatus(@PathVariable("status")Status status){
+		return jobRepo.findByStatus(status);
 	}
 	
 	@GetMapping("/{id}/action/{action}")

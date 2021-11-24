@@ -13,7 +13,7 @@ import com.loga.config.JobRunner;
 import com.loga.entity.Job;
 import com.loga.entity.Job.Action;
 import com.loga.entity.Job.Status;
-import com.loga.handler.JobException;
+import com.loga.exception.JobException;
 import com.loga.repo.JobRepo;
 import com.loga.runnerpkg.JobRunnerInterface;
 
@@ -46,7 +46,7 @@ public class JobService {
 		}
 	}
 
-	public void startJob(Long id) {
+	public synchronized void startJob(Long id) {
 		try {
 			if (JobRunner.runningJobs.containsKey(id)) {
 				log.info("Job already running");
@@ -91,7 +91,7 @@ public class JobService {
 		}
 	}
 
-	public void stopJob(Long id) {
+	public synchronized void stopJob(Long id) {
 		try {
 			if (!jobRepo.existsById(id)) {
 				log.info("Invalid job");
@@ -104,7 +104,7 @@ public class JobService {
 			JobRunner.runningJobs.get(id).cancel(true);
 			JobRunner.runningJobs.remove(id);
 			jobRepo.setJobStatus(id, Status.STOPPED);
-		}catch (JobException e) {
+		} catch (JobException e) {
 			throw e;
 		} catch (Exception e) {
 			log.error("Exception occured when stop the job :: {}", e.getMessage());

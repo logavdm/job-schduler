@@ -29,7 +29,7 @@ public class JobRunner implements ApplicationListener<ApplicationReadyEvent> {
 
 	@Autowired
 	private JobRepo jobRepo;
-	
+		
 	@Autowired
 	private JobService jobService;
 
@@ -39,7 +39,7 @@ public class JobRunner implements ApplicationListener<ApplicationReadyEvent> {
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	@Autowired
+	@Autowired	
 	private TaskScheduler jobSchduler;
 
 	public static Map<Long, ScheduledFuture<?>> runningJobs = new LinkedHashMap<>();
